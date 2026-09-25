@@ -17,10 +17,10 @@ import io
 import wave
 from pathlib import Path
 from typing import Optional
-
 import numpy as np
 from fastapi import FastAPI
 from fastapi.responses import FileResponse, StreamingResponse, Response
+from apps.user_voices import load_user_voices
 from pydantic import BaseModel
 import uvicorn
 
@@ -48,6 +48,7 @@ def load_model():
         precision=os.environ.get("VIENEU_PRECISION", "fp32"),
         onnx_dir=os.environ.get("VIENEU_ONNX_DIR") or None,
     )
+    load_user_voices
     print(f"✅ Ready. Backbone: {os.environ.get('VIENEU_PRECISION', 'fp32')} | intra_op threads: {getattr(vieneu.engine, 'ort_intra_op_threads', '?')}")
 
 
