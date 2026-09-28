@@ -65,6 +65,7 @@ import uvicorn
 from fastapi import Depends, FastAPI, File, Form, Header, HTTPException, Request, UploadFile
 from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import BaseModel, Field
+from apps.user_voices import load_user_voices
 
 from vieneu import Vieneu
 
@@ -98,6 +99,7 @@ class Engine:
         log.info("⏳ loading VieNeu-TTS v3 Turbo (backend=%s device=%s)", backend, device)
         t = time.perf_counter()
         self.tts = Vieneu(mode="v3turbo", **kw)
+        load_user_voices(self.tts)
         self.backend = self.tts.backend
         self.watermark = os.environ.get("VIENEU_WATERMARK", "1") != "0"
         # GPU: the scheduler batches every stream. CPU: the ONNX engine interleaves

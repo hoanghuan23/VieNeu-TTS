@@ -5,6 +5,9 @@
 
  - lệnh chạy server mặc định địa chỉ 8000: uv run python -m apps.openai_speech
  - lệnh check list giọng: curl http://localhost:8000/v1/voices
+ 
+ - lệnh build: docker compose -f docker/docker-compose.yml --profile api-cpu up -d --build
+ - lệnh restart: docker compose -f docker/docker-compose.yml --profile api-cpu restart api-cpu
 
 [![Awesome](https://img.shields.io/badge/Awesome-NLP-green?logo=github)](https://github.com/keon/awesome-nlp)
 [![Discord](https://img.shields.io/badge/Discord-Join%20Us-5865F2?logo=discord&logoColor=white)](https://discord.gg/yJt8kzjzWZ)
