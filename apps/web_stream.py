@@ -48,7 +48,7 @@ def load_model():
         precision=os.environ.get("VIENEU_PRECISION", "fp32"),
         onnx_dir=os.environ.get("VIENEU_ONNX_DIR") or None,
     )
-    load_user_voices
+    load_user_voices(vieneu)
     print(f"✅ Ready. Backbone: {os.environ.get('VIENEU_PRECISION', 'fp32')} | intra_op threads: {getattr(vieneu.engine, 'ort_intra_op_threads', '?')}")
 
 
