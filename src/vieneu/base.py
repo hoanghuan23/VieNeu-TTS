@@ -133,10 +133,10 @@ class BaseVieneuTTS(ABC):
         try:
             wm_cls = getattr(perth, "PerthImplicitWatermarker", None)
             if wm_cls is None:
-                raise AttributeError(
-                    "module 'perth' has no 'PerthImplicitWatermarker' — the installed 'perth' package "
-                    "is not resemble-perth, or its torch/torchaudio dependencies are missing"
-                )
+                # Perth suppresses ImportError internally; retry its implementation
+                # import so the warning reports the actual missing dependency.
+                from perth.perth_net.perth_net_implicit.perth_watermarker import PerthImplicitWatermarker
+                wm_cls = PerthImplicitWatermarker
             self.watermarker = wm_cls()
             logger.info("🔒 Audio watermarking initialized (Perth)")
         except Exception as e:
