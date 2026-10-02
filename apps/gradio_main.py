@@ -1931,7 +1931,11 @@ with gr.Blocks(theme=theme, css=css, title="VieNeu-TTS", head=head_html) as demo
                             lines=8,
                             placeholder="Dán hoặc gõ văn bản cần đọc vào đây…",
                         )
-                        
+                        text_stats = gr.Markdown(
+                            "📊 Số từ: **0** · Số ký tự: **0**",
+                            elem_classes="text-stats",
+                        )
+
                         voice_select = gr.Dropdown(
                             choices=[], value=None, label="Giọng mẫu", allow_custom_value=True,
                             info="Giọng bạn lưu ở tab Voice Cloning cũng nằm trong danh sách này.",
@@ -1951,7 +1955,11 @@ with gr.Blocks(theme=theme, css=css, title="VieNeu-TTS", head=head_html) as demo
                             lines=10,
                             elem_classes="script-box",
                         )
-                        
+                        conv_text_stats = gr.Markdown(
+                            "📊 Số từ: **0** · Số ký tự: **0**",
+                            elem_classes="text-stats",
+                        )
+
                         with gr.Row():
                             btn_detect_speakers = gr.Button("🔍 Quét nhân vật", size="sm", variant="secondary")
                             silence_slider = gr.Slider(minimum=0, maximum=3, value=0.3, step=0.1, label="⏱️ Khoảng lặng (giây)")
@@ -2547,6 +2555,26 @@ with gr.Blocks(theme=theme, css=css, title="VieNeu-TTS", head=head_html) as demo
             fn=restore_ui_state,
             outputs=[model_status, btn_generate, btn_generate_conv, btn_stop]
         ).then(_after_model_load, outputs=[btn_generate_clone, user_voice_dd])
+
+        # Register new events last to preserve existing event ordering.
+        text_input.change(
+            fn=lambda text: (
+                f" 📊 Số từ: **{len((text or '').split()):,}** · "
+                f"Số ký tự: **{len(text or ''):,}**"
+            ),
+            inputs=[text_input],
+            outputs=[text_stats],
+            queue=False,
+        )
+        conv_script_input.change(
+            fn=lambda text: (
+                f"📊 Số từ: **{len((text or '').split()):,}** · "
+                f"Số ký tự: **{len(text or ''):,}**"
+            ),
+            inputs=[conv_script_input],
+            outputs=[conv_text_stats],
+            queue=False,
+        )
 
 def main():
     # Cho phép override từ biến môi trường (hữu ích cho Docker)

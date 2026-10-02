@@ -12,6 +12,8 @@ theme = gr.themes.Soft(
 
 css = """
 .container { max-width: 1400px; margin: auto; }
+.text-stats { margin-left: 0 !important; }
+.text-stats .prose { padding-left: var(--input-padding, 12px) !important; }
 /* Compact control rows (Voice Cloning → saved voices): caption above, one-line
    controls vertically centred so a small button sits level with the dropdown. */
 .field-caption { margin: 4px 0 -6px 0; }
